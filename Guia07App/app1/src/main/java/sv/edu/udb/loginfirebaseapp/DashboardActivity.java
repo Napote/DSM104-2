@@ -1,8 +1,7 @@
-package sv.edu.udb.guia07app;
-
-import android.os.Bundle;
+package sv.edu.udb.loginfirebaseapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
 
 public class DashboardActivity extends AppCompatActivity {
 

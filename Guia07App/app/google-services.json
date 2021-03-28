@@ -33,35 +33,6 @@
           ]
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:987733701999:android:c3bca9a4f0696574d4649a",
-        "android_client_info": {
-          "package_name": "sv.edu.udb.guuia07app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "987733701999-rh3fatgbss0r55prlakacrohct0lto87.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyC3oKNI3zmdn4WyQQN56MseAf1jMJcbID8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "987733701999-rh3fatgbss0r55prlakacrohct0lto87.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
     }
   ],
   "configuration_version": "1"
