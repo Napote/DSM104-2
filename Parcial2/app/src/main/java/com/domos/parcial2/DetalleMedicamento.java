@@ -48,7 +48,7 @@ public class DetalleMedicamento extends AppCompatActivity {
         txtDescripLarga.setMovementMethod(new ScrollingMovementMethod());
     }
 
-    public void regresarPaginaPrincipal(View view){
+    public void regresarDetallePrincipal(View view){
         Intent intent = new Intent(DetalleMedicamento.this, MainActivity.class);
         startActivity(intent);
     }
