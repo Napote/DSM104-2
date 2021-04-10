@@ -69,22 +69,24 @@
             android:layout_weight="1"
             android:text="@string/titulo_detalle"
             android:textAllCaps="true"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:fontFamily="@font/nimbus_bold"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
-        android:backgroundTint="@color/fondoBoton"
         android:text="@string/agregar_carrito"
         android:textAllCaps="true"
         android:textColor="@color/white"
+        android:background="@drawable/boton_redondeado"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -115,14 +117,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nimbus_bold"/>
 
                 <TextView
                     android:id="@+id/txtDescripcionCortaD"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TextView"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nimbus_light"/>
             </LinearLayout>
 
             <LinearLayout
@@ -138,7 +142,8 @@
                     android:layout_height="wrap_content"
                     android:text="TextView"
                     android:textAlignment="textEnd"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/nimbus_bold"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -152,11 +157,14 @@
         <TextView
             android:id="@+id/txtDescripcionLargaD"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="20dp"
             android:text="TextView"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:justificationMode="inter_word"
+            android:scrollbars="vertical"
+            android:fontFamily="@font/nimbus_light"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +44,8 @@ public class DetalleMedicamento extends AppCompatActivity {
         txtPrecio.setText(precio);
         txtDescripLarga.setText(descripLarga);
         imgMedicamento.setImageResource(foto);
+
+        txtDescripLarga.setMovementMethod(new ScrollingMovementMethod());
     }
 
     public void regresarPaginaPrincipal(View view){
