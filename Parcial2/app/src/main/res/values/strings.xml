@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Parcial2</string>
+
+    <!-- Detalle de medicamento -->
+    <string name="titulo_detalle">Detalles</string>
+    <string name="agregar_carrito">Agregar al carrito</string>
+</resources>
