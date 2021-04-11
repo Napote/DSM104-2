@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listaMedicamentos;
 
     //Declarando lista de items para carrito ( global )
-   ` public static List<Item> listaItemsCarrito;`
+   public static List<Item> listaItemsCarrito;
 
     ImageButton btnIrCarrito, btnMenu;
 
