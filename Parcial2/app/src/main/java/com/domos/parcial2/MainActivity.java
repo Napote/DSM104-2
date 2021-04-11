@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listaMedicamentos;
 
     //Declarando lista de items para carrito ( global )
-    public static List<Item> listaItemsCarrito;
+   public static List<Item> listaItemsCarrito;
 
     ImageButton btnIrCarrito, btnMenu;
 
@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         btnMenu = findViewById(R.id.ibtnMenu);
 
 
-        Log.d("buenas", "Hola mundo");
 
         btnIrCarrito.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -70,24 +69,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        logcatCarrito();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        //logcatCarrito();
-    }
-
-
-    private void logcatCarrito(){
-        for(Item i:listaItemsCarrito){
-            Log.d("list", ""+i.getCosto());
-            Log.d("list", i.getNombre());
-            Log.d("list", ""+i.getUnidades());
-        }
     }
 
 
@@ -153,9 +140,7 @@ public class MainActivity extends AppCompatActivity {
         listaMedicamentos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                logcatCarrito();
                 Intent intent = new Intent(getBaseContext(), DetalleMedicamento.class);
-
                 //Esta linea me puede servir para la key del medicamento en firebase
                 //intent.putExtra("key", personas.get(i).getKey());
 

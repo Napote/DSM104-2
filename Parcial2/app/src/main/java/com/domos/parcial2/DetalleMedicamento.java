@@ -40,7 +40,7 @@ public class DetalleMedicamento extends AppCompatActivity {
             public void onClick(View v) {
 
                 //Creando objeto
-                enviarCarrito=new Item(id,nombre,Double.parseDouble(precio),1,foto);
+                enviarCarrito=new Item(id,nombre,Double.parseDouble(precio),Double.parseDouble(precio),1,foto);
 
                 //antes de agregar el medicamento a la lista de elementos, tengo que verificar si ya existe ese medicamento
 
@@ -51,10 +51,12 @@ public class DetalleMedicamento extends AppCompatActivity {
                         int unidades = item.getUnidades() + 1;
                         if(unidades <= 5){
                             item.setUnidades(unidades);
+                            double costoUnidades = unidades * item.getCosto();
+                            item.setCosto((float)costoUnidades);
                             Log.i("SE INCREMENTA ELEMENTO", "SE INCREMENTÓ");
-                            Toast.makeText(DetalleMedicamento.this, "Se ha incrementado la cantidad de unidades para este medicamento.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DetalleMedicamento.this, "Se ha agregado el item al carrito.", Toast.LENGTH_SHORT).show();
                         }else {
-                            Toast.makeText(DetalleMedicamento.this,"Se ha alcanzado la cantidad máxima de 5 unidades para este medicamento", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DetalleMedicamento.this,"Solo puede llevar 5 unidades de este producto.", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -90,8 +92,6 @@ public class DetalleMedicamento extends AppCompatActivity {
                 // and save data in shared prefs.
                 editor.apply();
 
-                // after saving data we are displaying a toast message.
-                //Toast.makeText(DetalleMedicamento.this, "Se ha agregado el item al carrito.", Toast.LENGTH_SHORT).show();
 
             }
         });
