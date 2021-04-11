@@ -99,7 +99,7 @@ tools:context=".Carrito">
 
         <TextView
             android:id="@+id/tvwNumeroArticulos"
-            android:layout_width="94dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/nimbus_light"
@@ -110,15 +110,15 @@ tools:context=".Carrito">
 
         <TextView
             android:id="@+id/tvwSubtotalDolares"
-            android:layout_width="33dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:fontFamily="@font/nimbus_bold"
             android:text="$ 0.00"
             android:textAllCaps="false"
             android:textColor="#686868"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:gravity="right"/>
 
     </LinearLayout>
 
