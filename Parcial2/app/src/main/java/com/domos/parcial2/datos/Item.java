@@ -54,5 +54,10 @@ public class Item {
         return foto;
     }
 
+    public void recalcularCostoUnidades(){
+        double nuevoCosto = this.costoUnidad*this.unidades;
+        setCosto((float)nuevoCosto);
+    }
+
 
 }

@@ -92,8 +92,6 @@ public class DetalleMedicamento extends AppCompatActivity {
                 // and save data in shared prefs.
                 editor.apply();
 
-                // after saving data we are displaying a toast message.
-                //Toast.makeText(DetalleMedicamento.this, "Se ha agregado el item al carrito.", Toast.LENGTH_SHORT).show();
 
             }
         });

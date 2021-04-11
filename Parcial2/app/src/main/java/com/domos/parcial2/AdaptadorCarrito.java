@@ -1,14 +1,18 @@
 package com.domos.parcial2;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +50,9 @@ public class AdaptadorCarrito extends ArrayAdapter<Item> {
         TextView txtNombreMedicamento= rowview.findViewById(R.id.txtNombreProducto);
         TextView txtUnidades = rowview.findViewById(R.id.tvNumeroUnidades);
         TextView txtCosto = rowview.findViewById(R.id.txtCostoProducto);
+        TextView txtQuitarItem = rowview.findViewById(R.id.tvQuitar);
+
+
         ImageView imgMedicamento = rowview.findViewById(R.id.imgMedicamentoCarrito);
 
         ImageButton agregarUnidad = rowview.findViewById(R.id.ibtnAgregarUnidades);
@@ -55,7 +62,7 @@ public class AdaptadorCarrito extends ArrayAdapter<Item> {
         txtUnidades.setText(""+itemsCarrito.get(position).getUnidades());
         txtCosto.setText("$ "+String.format("%.2f", itemsCarrito.get(position).getCosto()));
         imgMedicamento.setImageResource(itemsCarrito.get(position).getFoto());
-
+        txtQuitarItem.setText("Quitar");
 
         agregarUnidad.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,13 +71,33 @@ public class AdaptadorCarrito extends ArrayAdapter<Item> {
                 if(unidades < 5){
                     unidades=unidades+1;
                     itemsCarrito.get(position).setUnidades(unidades);
-                    double costoUnidades = unidades * itemsCarrito.get(position).getCostoUnidad();
-                    itemsCarrito.get(position).setCosto((float)costoUnidades);
+                    itemsCarrito.get(position).recalcularCostoUnidades();
                     Carrito.adapter.notifyDataSetChanged();
                 }
             }
         });
 
+        quitarUnidad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int unidades = itemsCarrito.get(position).getUnidades();
+                if(unidades > 1){
+                    unidades=unidades-1;
+                    itemsCarrito.get(position).setUnidades(unidades);
+                    itemsCarrito.get(position).recalcularCostoUnidades();
+                    Carrito.adapter.notifyDataSetChanged();
+                }
+
+            }
+        });
+
+        txtQuitarItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemsCarrito.remove(position);
+                Carrito.adapter.notifyDataSetChanged();
+
+        }});
 
         return rowview;
     }
