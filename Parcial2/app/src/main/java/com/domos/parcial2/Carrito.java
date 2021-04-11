@@ -129,9 +129,9 @@ public class Carrito extends AppCompatActivity {
             tvNumeroArticulos.setText(numeroArticulos+" articulos");
             tvSubtotal.setText("$ "+String.format("%.2f", sumaCostoArticulos));
 
-            estaOrden=new Orden(sumaCostoArticulos,numeroArticulos);
-
-            estaOrden.getCosto();
+            //estaOrden=new Orden(sumaCostoArticulos,numeroArticulos);
+            estaOrden.setCosto(sumaCostoArticulos);
+            estaOrden.setTotalItems(numeroArticulos);
         }
     };
 

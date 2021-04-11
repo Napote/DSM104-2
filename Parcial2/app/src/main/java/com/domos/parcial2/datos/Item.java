@@ -58,6 +58,4 @@ public class Item {
         double nuevoCosto = this.costoUnidad*this.unidades;
         setCosto((float)nuevoCosto);
     }
-
-
 }
