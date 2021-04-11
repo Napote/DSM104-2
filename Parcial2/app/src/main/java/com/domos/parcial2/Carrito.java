@@ -1,10 +1,14 @@
 package com.domos.parcial2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,6 +67,9 @@ public class Carrito extends AppCompatActivity {
             btnHacerPedido.setEnabled(false);
         }
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(actualizarCarrito, new IntentFilter("actualizarCarrito"));
+
+
     }
 
     @Override
@@ -74,9 +81,6 @@ public class Carrito extends AppCompatActivity {
         }else{
             btnHacerPedido.setEnabled(true);
         }
-
-
-
     }
 
 
@@ -108,8 +112,29 @@ public class Carrito extends AppCompatActivity {
         tvSubtotal.setText("$ "+String.format("%.2f", sumaCostoArticulos));
 
         estaOrden=new Orden(sumaCostoArticulos,numeroArticulos);
-
     }
+
+    //Declaración e inicialización del broadcastReceiver
+    BroadcastReceiver actualizarCarrito = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int numeroArticulos = 0;
+            double sumaCostoArticulos = 0;
+
+            for(Item i:MainActivity.listaItemsCarrito){
+                numeroArticulos= numeroArticulos+ i.getUnidades();
+                sumaCostoArticulos+=i.getCosto();
+            }
+
+            tvNumeroArticulos.setText(numeroArticulos+" articulos");
+            tvSubtotal.setText("$ "+String.format("%.2f", sumaCostoArticulos));
+
+            estaOrden=new Orden(sumaCostoArticulos,numeroArticulos);
+
+            estaOrden.getCosto();
+        }
+    };
+
 
     public void inicializarControles(){
         itemsEnCarrito = findViewById(R.id.listaItemsCarrito);

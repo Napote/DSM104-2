@@ -3,6 +3,7 @@ package com.domos.parcial2;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.domos.parcial2.datos.Item;
 import com.domos.parcial2.datos.Medicamento;
@@ -72,6 +74,11 @@ public class AdaptadorCarrito extends ArrayAdapter<Item> {
                     unidades=unidades+1;
                     itemsCarrito.get(position).setUnidades(unidades);
                     itemsCarrito.get(position).recalcularCostoUnidades();
+
+                    //Este intent desencadena un evento en la clase Carrito que actualiza la cantidad y el total de elementos mostrados
+                    Intent intent = new Intent("actualizarCarrito");
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
                     Carrito.adapter.notifyDataSetChanged();
                 }
             }
@@ -85,6 +92,10 @@ public class AdaptadorCarrito extends ArrayAdapter<Item> {
                     unidades=unidades-1;
                     itemsCarrito.get(position).setUnidades(unidades);
                     itemsCarrito.get(position).recalcularCostoUnidades();
+
+                    Intent intent = new Intent("actualizarCarrito");
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
                     Carrito.adapter.notifyDataSetChanged();
                 }
 
@@ -95,8 +106,11 @@ public class AdaptadorCarrito extends ArrayAdapter<Item> {
             @Override
             public void onClick(View v) {
                 itemsCarrito.remove(position);
-                Carrito.adapter.notifyDataSetChanged();
 
+                Intent intent = new Intent("actualizarCarrito");
+                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
+                Carrito.adapter.notifyDataSetChanged();
         }});
 
         return rowview;
