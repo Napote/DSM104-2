@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     //Declarando lista de items para carrito ( global )
     public static List<Item> listaItemsCarrito;
 
-    ImageButton btnIrCarrito;
+    ImageButton btnIrCarrito, btnMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         cargarListviewMedicamentos();
 
         btnIrCarrito = findViewById(R.id.ibtnCarrito);
+        btnMenu = findViewById(R.id.ibtnMenu);
 
 
         Log.d("buenas", "Hola mundo");
@@ -57,6 +58,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Carrito.class);
+                startActivity(intent);
+            }
+        });
+
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, InicioSesion.class);
                 startActivity(intent);
             }
         });
@@ -143,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarListviewMedicamentos() {
+
         listaMedicamentos = findViewById(R.id.listaMedicamentos);
 
 
@@ -167,68 +177,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        // Cuando el usuario hace un LongClic (clic sin soltar elemento por mas de 2 segundos)
-        // Es por que el usuario quiere eliminar el registro
-        listaPersonas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
-
-                // Preparando cuadro de dialogo para preguntar al usuario
-                // Si esta seguro de eliminar o no el registro
-                AlertDialog.Builder ad = new AlertDialog.Builder(PersonasActivity.this);
-                ad.setMessage("Está seguro de eliminar registro?")
-                        .setTitle("Confirmación");
-
-                ad.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        PersonasActivity.refPersonas
-                                .child(personas.get(position).getKey()).removeValue();
-
-                        Toast.makeText(PersonasActivity.this,
-                                "Registro borrado!",Toast.LENGTH_SHORT).show();
-                    }
-                });
-                ad.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(PersonasActivity.this,
-                                "Operación de borrado cancelada!",Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                ad.show();
-                return true;
-            }
-        });
-        */
-
         AdaptadorMedicamento adapter = new AdaptadorMedicamento(MainActivity.this, medicamentos);
         listaMedicamentos.setAdapter(adapter);
 
-        //Esto lo arreglo ya cuando tenga el firebase
-        /*
-        // Cambiarlo refProductos a consultaOrdenada para ordenar lista
-        consultaOrdenada.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Procedimiento que se ejecuta cuando hubo algun cambio
-                // en la base de datos
-                // Se actualiza la coleccion de personas
-                personas.removeAll(personas);
-                for (DataSnapshot dato : dataSnapshot.getChildren()) {
-                    Persona persona = dato.getValue(Persona.class);
-                    persona.setKey(dato.getKey());
-                    personas.add(persona);
-                }
-
-                AdaptadorPersona adapter = new AdaptadorPersona(PersonasActivity.this,
-                        personas );
-                listaPersonas.setAdapter(adapter);
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });*/
     }
 }

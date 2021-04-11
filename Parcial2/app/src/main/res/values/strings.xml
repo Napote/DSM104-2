@@ -6,9 +6,13 @@
     <string name="agregar_carrito">Agregar al carrito</string>
 
 
-
     <!-- Carrito -->
     <string name="titulo_pantalla_carrito">CARRITO</string>
     <string name="text_btn_hacer_pedido">HACER PEDIDO</string>
     <string name="text_lblSubtotal">Subtotal - </string>
+
+    <!-- Inicio de sesión -->
+    <string name="text_lblSinCuenta">¿No tienes una cuenta?</string>
+    <string name="btn_iniciarSesion">Iniciar Sesion</string>
+    <string name="btn_registrarse">Registrate</string>
 </resources>
