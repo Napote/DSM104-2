@@ -39,7 +39,7 @@ public class DetalleMedicamento extends AppCompatActivity {
             public void onClick(View v) {
 
                 //Creando objeto
-                enviarCarrito=new Item(id,nombre,Double.parseDouble(precio),1);
+                enviarCarrito=new Item(id,nombre,Double.parseDouble(precio),1,foto);
 
                 MainActivity.listaItemsCarrito.add(enviarCarrito);
 
