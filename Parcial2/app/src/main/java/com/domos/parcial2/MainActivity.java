@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -93,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void recuperarCarritoPreferencias(){
+
+
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         // creating a variable for gson.
         Gson gson = new Gson();
@@ -108,14 +109,6 @@ public class MainActivity extends AppCompatActivity {
         if (listaItemsCarrito == null) {
             listaItemsCarrito = new ArrayList<>();
         }
-
-
-
-
-
-
-
-
     }
 
 

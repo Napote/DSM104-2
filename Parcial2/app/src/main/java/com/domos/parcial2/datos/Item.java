@@ -6,13 +6,16 @@ public class Item {
     private String nombreMedicamento;
     private double costo;
     private int unidades;
+    private int foto;
+
 
     //Constructor
-    public Item(String ID, String nombreMedicamento, double costo, int unidades){
+    public Item(String ID, String nombreMedicamento, double costo, int unidades,int foto){
         this.ID = ID;
         this.nombreMedicamento=nombreMedicamento;
         this.costo=costo;
         this.unidades=unidades;
+        this.foto = foto;
     }
 
     //Set y Get
@@ -36,5 +39,14 @@ public class Item {
     public int getUnidades() {
         return unidades;
     }
+
+    public void setFoto(int foto) {
+        this.foto = foto;
+    }
+
+    public int getFoto() {
+        return foto;
+    }
+
 
 }

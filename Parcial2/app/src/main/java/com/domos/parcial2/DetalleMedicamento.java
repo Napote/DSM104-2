@@ -40,7 +40,7 @@ public class DetalleMedicamento extends AppCompatActivity {
             public void onClick(View v) {
 
                 //Creando objeto
-                enviarCarrito=new Item(id,nombre,Double.parseDouble(precio),1);
+                enviarCarrito=new Item(id,nombre,Double.parseDouble(precio),1,foto);
 
                 //antes de agregar el medicamento a la lista de elementos, tengo que verificar si ya existe ese medicamento
 
