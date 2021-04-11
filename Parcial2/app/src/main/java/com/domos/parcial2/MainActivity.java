@@ -5,14 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.domos.parcial2.datos.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,14 +33,81 @@ public class MainActivity extends AppCompatActivity {
     List<Medicamento> medicamentos;
     ListView listaMedicamentos;
 
+    //Declarando lista de items para carrito ( global )
+    public static List<Item> listaItemsCarrito;
+
+    ImageButton btnIrCarrito;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        recuperarCarritoPreferencias();
+
         cargarMedicamentos();
         cargarListviewMedicamentos();
+
+        btnIrCarrito = findViewById(R.id.ibtnCarrito);
+
+
+        Log.d("buenas", "Hola mundo");
+
+        btnIrCarrito.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Carrito.class);
+                startActivity(intent);
+            }
+        });
+
+        logcatCarrito();
+
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        logcatCarrito();
+    }
+
+    private void logcatCarrito(){
+        for(Item i:listaItemsCarrito){
+            Log.d("list", ""+i.getCosto());
+            Log.d("list", i.getNombre());
+            Log.d("list", ""+i.getUnidades());
+        }
+    }
+
+
+    private void recuperarCarritoPreferencias(){
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        // creating a variable for gson.
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("carrito", null);
+
+        //mapeando string
+        Type type = new TypeToken<ArrayList<Item>>() {}.getType();
+
+        listaItemsCarrito = gson.fromJson(json, type);
+
+        //Si shared preferences esta vacio crear la lista
+
+        if (listaItemsCarrito == null) {
+            listaItemsCarrito = new ArrayList<>();
+        }
+
+
+
+
+
+
+
+
+    }
+
 
     private void cargarMedicamentos(){
 

@@ -4,4 +4,11 @@
     <!-- Detalle de medicamento -->
     <string name="titulo_detalle">Detalles</string>
     <string name="agregar_carrito">Agregar al carrito</string>
+
+
+
+    <!-- Carrito -->
+    <string name="titulo_pantalla_carrito">CARRITO</string>
+    <string name="text_btn_hacer_pedido">HACER PEDIDO</string>
+    <string name="text_lblSubtotal">Subtotal - </string>
 </resources>

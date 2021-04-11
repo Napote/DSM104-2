@@ -3,18 +3,27 @@ package com.domos.parcial2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.domos.parcial2.datos.Item;
+import com.google.gson.Gson;
 
 public class DetalleMedicamento extends AppCompatActivity {
 
     TextView txtNombre, txtDescripCorta, txtDescripLarga, txtPrecio;
     ImageView imgMedicamento;
     String id, nombre, precio, descripCorta, descripLarga;
+    Button btnAgregarAlCarrito;
     int foto;
+
+    Item enviarCarrito;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +31,50 @@ public class DetalleMedicamento extends AppCompatActivity {
         setContentView(R.layout.activity_detalle_medicamento);
 
         cargarDatos();
+
+        btnAgregarAlCarrito = findViewById(R.id.btnAgregarCarrito);
+
+        btnAgregarAlCarrito.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                //Creando objeto
+                enviarCarrito=new Item(id,nombre,Double.parseDouble(precio),1);
+
+                MainActivity.listaItemsCarrito.add(enviarCarrito);
+
+                // method for saving the data in array list.
+                // creating a variable for storing data in
+                // shared preferences.
+                SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+
+                // creating a variable for editor to
+                // store data in shared preferences.
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                // creating a new variable for gson.
+                Gson gson = new Gson();
+
+                // getting data from gson and storing it in a string.
+                String json = gson.toJson(MainActivity.listaItemsCarrito);
+
+                // below line is to save data in shared
+                // prefs in the form of string.
+                editor.putString("carrito", json);
+
+                // below line is to apply changes
+                // and save data in shared prefs.
+                editor.apply();
+
+                // after saving data we are displaying a toast message.
+                Toast.makeText(DetalleMedicamento.this, "Se ha agregado el item al carrito.", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+
+
     }
 
     public void cargarDatos(){
