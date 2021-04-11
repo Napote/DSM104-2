@@ -20,7 +20,7 @@ public class Carrito extends AppCompatActivity {
     ImageButton btnRegresarPantallaPrincipal;
     Button btnHacerPedido;
     ListView itemsEnCarrito;
-
+    static AdaptadorCarrito adapter;
 
 
 
@@ -40,7 +40,7 @@ public class Carrito extends AppCompatActivity {
             }
         });
 
-       AdaptadorCarrito adapter = new AdaptadorCarrito(Carrito.this, MainActivity.listaItemsCarrito);
+       adapter = new AdaptadorCarrito(Carrito.this, MainActivity.listaItemsCarrito);
        itemsEnCarrito.setAdapter(adapter);
 
         if (MainActivity.listaItemsCarrito == null) {
@@ -59,38 +59,6 @@ public class Carrito extends AppCompatActivity {
             btnHacerPedido.setEnabled(true);
         }
     }
-
- /*
-       itemsEnCarrito.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
-
-                // Preparando cuadro de dialogo para preguntar al usuario
-                // Si esta seguro de eliminar o no el registro
-                AlertDialog.Builder ad = new AlertDialog.Builder(Carrito.this);
-                ad.setMessage("Está seguro de quitar este item?")
-                        .setTitle("Confirmación");
-
-                ad.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-
-                        Toast.makeText(Carrito.this,
-                                "Item eliminado del carrito",Toast.LENGTH_SHORT).show();
-                    }
-                });
-                ad.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-
-                ad.show();
-                return true;
-            }
-        });
-*/
-
-
 
 
 

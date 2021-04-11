@@ -1,12 +1,16 @@
 package com.domos.parcial2;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,10 +48,29 @@ public class AdaptadorCarrito extends ArrayAdapter<Item> {
         TextView txtCosto = rowview.findViewById(R.id.txtCostoProducto);
         ImageView imgMedicamento = rowview.findViewById(R.id.imgMedicamentoCarrito);
 
+        ImageButton agregarUnidad = rowview.findViewById(R.id.ibtnAgregarUnidades);
+        ImageButton quitarUnidad = rowview.findViewById(R.id.ibtnQuitarUnidades);
+
         txtNombreMedicamento.setText(itemsCarrito.get(position).getNombre());
         txtUnidades.setText(""+itemsCarrito.get(position).getUnidades());
-        txtCosto.setText("$ "+itemsCarrito.get(position).getCosto());
+        txtCosto.setText("$ "+String.format("%.2f", itemsCarrito.get(position).getCosto()));
         imgMedicamento.setImageResource(itemsCarrito.get(position).getFoto());
+
+
+        agregarUnidad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int unidades = itemsCarrito.get(position).getUnidades();
+                if(unidades < 5){
+                    unidades=unidades+1;
+                    itemsCarrito.get(position).setUnidades(unidades);
+                    double costoUnidades = unidades * itemsCarrito.get(position).getCostoUnidad();
+                    itemsCarrito.get(position).setCosto((float)costoUnidades);
+                    Carrito.adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
 
         return rowview;
     }

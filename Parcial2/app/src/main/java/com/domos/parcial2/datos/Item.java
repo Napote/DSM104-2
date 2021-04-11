@@ -4,17 +4,19 @@ public class Item {
 
     public String ID;
     private String nombreMedicamento;
+    private double costoUnidad;
     private double costo;
     private int unidades;
     private int foto;
 
 
     //Constructor
-    public Item(String ID, String nombreMedicamento, double costo, int unidades,int foto){
+    public Item(String ID, String nombreMedicamento, double costoUnidad, double costo, int unidades,int foto){
         this.ID = ID;
         this.nombreMedicamento=nombreMedicamento;
         this.costo=costo;
         this.unidades=unidades;
+        this.costoUnidad=costoUnidad;
         this.foto = foto;
     }
 
@@ -39,6 +41,10 @@ public class Item {
     public int getUnidades() {
         return unidades;
     }
+
+    public void setCostoUnidad(float costoUnidad){this.costoUnidad = costoUnidad;}
+
+    public double getCostoUnidad(){return costoUnidad;}
 
     public void setFoto(int foto) {
         this.foto = foto;
