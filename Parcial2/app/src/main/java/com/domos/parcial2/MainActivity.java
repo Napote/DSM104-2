@@ -70,8 +70,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        logcatCarrito();
+        //logcatCarrito();
     }
+
 
     private void logcatCarrito(){
         for(Item i:listaItemsCarrito){
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         listaMedicamentos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                logcatCarrito();
                 Intent intent = new Intent(getBaseContext(), DetalleMedicamento.class);
 
                 //Esta linea me puede servir para la key del medicamento en firebase

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -41,7 +42,30 @@ public class DetalleMedicamento extends AppCompatActivity {
                 //Creando objeto
                 enviarCarrito=new Item(id,nombre,Double.parseDouble(precio),1);
 
-                MainActivity.listaItemsCarrito.add(enviarCarrito);
+                //antes de agregar el medicamento a la lista de elementos, tengo que verificar si ya existe ese medicamento
+
+                Boolean existe = false;
+                for(Item item : MainActivity.listaItemsCarrito){
+                    if(item.ID.equals(enviarCarrito.ID)){
+                        existe = true;
+                        int unidades = item.getUnidades() + 1;
+                        if(unidades <= 5){
+                            item.setUnidades(unidades);
+                            Log.i("SE INCREMENTA ELEMENTO", "SE INCREMENTÓ");
+                            Toast.makeText(DetalleMedicamento.this, "Se ha incrementado la cantidad de unidades para este medicamento.", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(DetalleMedicamento.this,"Se ha alcanzado la cantidad máxima de 5 unidades para este medicamento", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+
+                if(existe == false){
+                    Log.i("SE CREA ELEMENTO","SE CREÓ");
+                    MainActivity.listaItemsCarrito.add(enviarCarrito);
+                    Toast.makeText(DetalleMedicamento.this, "Se ha agregado el item al carrito.", Toast.LENGTH_SHORT).show();
+                }
+
 
                 // method for saving the data in array list.
                 // creating a variable for storing data in
@@ -67,7 +91,7 @@ public class DetalleMedicamento extends AppCompatActivity {
                 editor.apply();
 
                 // after saving data we are displaying a toast message.
-                Toast.makeText(DetalleMedicamento.this, "Se ha agregado el item al carrito.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DetalleMedicamento.this, "Se ha agregado el item al carrito.", Toast.LENGTH_SHORT).show();
 
             }
         });
