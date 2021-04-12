@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.domos.parcial2.datos.Item;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,10 +35,16 @@ public class MainActivity extends AppCompatActivity {
     List<Medicamento> medicamentos;
     ListView listaMedicamentos;
 
+
+
     //Declarando lista de items para carrito ( global )
-   public static List<Item> listaItemsCarrito;
+    public static List<Item> listaItemsCarrito;
 
     ImageButton btnIrCarrito, btnMenu;
+
+    public static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public static DatabaseReference refClientes = database.getReference("clientes");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
         cargarMedicamentos();
         cargarListviewMedicamentos();
+
+        Bundle bund = getIntent().getExtras();
 
         btnIrCarrito = findViewById(R.id.ibtnCarrito);
         btnMenu = findViewById(R.id.ibtnMenu);

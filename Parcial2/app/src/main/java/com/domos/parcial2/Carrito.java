@@ -24,6 +24,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.domos.parcial2.datos.Item;
 import com.domos.parcial2.datos.Orden;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -42,12 +43,18 @@ public class Carrito extends AppCompatActivity {
     static AdaptadorCarrito adapter;
 
 
+    private FirebaseAuth mAuth;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrito);
 
+
+        mAuth = FirebaseAuth.getInstance();
 
         inicializarControles();
         calcularTotalItems();
@@ -59,6 +66,25 @@ public class Carrito extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnHacerPedido.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                if(MainActivity.listaItemsCarrito == null){
+
+                    Toast.makeText(Carrito.this,"El carrito esta vacio.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String usuarioActivo = mAuth.getUid();
+                MainActivity.refClientes.child(usuarioActivo).child("ordenes").push().setValue(estaOrden);
+
+        }});
+
+
+
+
 
         adapter = new AdaptadorCarrito(Carrito.this, MainActivity.listaItemsCarrito);
 

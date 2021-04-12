@@ -20,7 +20,7 @@ public class InicioSesion extends AppCompatActivity {
 
     TextInputEditText edtCorreo, edtContra;
     Button btnIniciarSesion, btnRegistrarse;
-
+    String correo, contra;
     private FirebaseAuth mAuth;
 
 
@@ -30,7 +30,6 @@ public class InicioSesion extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_sesion);
 
         mAuth = FirebaseAuth.getInstance();
-
         inicializar();
     }
 
@@ -46,7 +45,7 @@ public class InicioSesion extends AppCompatActivity {
             public void onClick(View v) {
 
                 //Programar las funciones de firebase que revisan si el usuario existe
-                String correo, contra;
+
                 correo = edtCorreo.getText().toString();
                 contra = edtContra.getText().toString();
 
@@ -80,7 +79,9 @@ public class InicioSesion extends AppCompatActivity {
         btnRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(InicioSesion.this,RegistrarUsuario.class);
+
                 startActivity(intent);
             }
         });

@@ -22,7 +22,12 @@
         <activity android:name=".Carrito" />
         <activity android:name=".Pedidos" />
         <activity android:name=".DetalleMedicamento" />
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity">
+
+
+        </activity>
+
+
     </application>
 
 </manifest>
