@@ -9,6 +9,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ public class DetalleMedicamento extends AppCompatActivity {
     ImageView imgMedicamento;
     String id, nombre, precio, descripCorta, descripLarga;
     Button btnAgregarAlCarrito;
+    ImageButton ibtnCarrito;
     int foto;
 
     Item enviarCarrito;
@@ -34,6 +36,15 @@ public class DetalleMedicamento extends AppCompatActivity {
         cargarDatos();
 
         btnAgregarAlCarrito = findViewById(R.id.btnAgregarCarrito);
+        ibtnCarrito = (ImageButton) findViewById(R.id.ibtnCarrito);
+
+        ibtnCarrito.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetalleMedicamento.this, Carrito.class);
+                startActivity(intent);
+            }
+        });
 
         btnAgregarAlCarrito.setOnClickListener(new View.OnClickListener(){
             @Override
