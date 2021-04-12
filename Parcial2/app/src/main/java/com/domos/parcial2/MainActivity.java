@@ -8,17 +8,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.domos.parcial2.datos.Item;
 import com.domos.parcial2.datos.Orden;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
@@ -35,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     List<Medicamento> medicamentos;
     ListView listaMedicamentos;
-
+    private FirebaseAuth mAuth;
 
 
     //Declarando lista de items para carrito ( global )
@@ -62,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         btnIrCarrito = findViewById(R.id.ibtnCarrito);
         btnMenu = findViewById(R.id.ibtnMenu);
 
-
+        mAuth = FirebaseAuth.getInstance();
 
         btnIrCarrito.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -75,8 +82,7 @@ public class MainActivity extends AppCompatActivity {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, InicioSesion.class);
-                startActivity(intent);
+                showPopup(v);
             }
         });
 
@@ -85,8 +91,54 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser == null){
+            Intent intent = new Intent(MainActivity.this, InicioSesion.class);
+            startActivity(intent);
+        }
 
     }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent;
+                switch (item.getItemId()) {
+                    //El primero lleva a mis ordenes
+                    case R.id.menuitem1:
+                        intent = new Intent(MainActivity.this, Pedidos.class);
+                        startActivity(intent);
+                        return true;
+
+                    //el segundo cierra sesion
+                    case R.id.menuitem2:
+
+                        FirebaseAuth.getInstance().signOut();
+                        intent = new Intent(MainActivity.this, InicioSesion.class);
+                        startActivity(intent);
+
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+        });
+
+        inflater.inflate(R.menu.menu_principal, popup.getMenu());
+        popup.show();
+    }
+
+
 
 
     private void recuperarCarritoPreferencias(){
