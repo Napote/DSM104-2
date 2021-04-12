@@ -17,34 +17,12 @@
         android:background="@color/fondoInicioSesion">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout3"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="172dp"
-            app:boxStrokeColor="@color/fondoBoton"
-            app:endIconMode="clear_text"
-            app:hintTextColor="@color/fondoBoton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtIniciarCorreo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_correo"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout5"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="32dp"
             app:boxStrokeColor="@color/fondoBoton"
             app:endIconMode="password_toggle"
             app:hintTextColor="@color/fondoBoton"
@@ -60,19 +38,50 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout3"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="216dp"
+            app:boxStrokeColor="@color/fondoBoton"
+            app:endIconMode="clear_text"
+            app:hintTextColor="@color/fondoBoton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtIniciarCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_correo"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/btnIniciarSesion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="92dp"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="40dp"
+            android:backgroundTint="@color/fondoToolbar"
+            android:fontFamily="@font/nimbus_bold"
             android:text="@string/btn_iniciarSesion"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
-            android:fontFamily="@font/nimbus_bold"
-            android:backgroundTint="@color/fondoToolbar"
-            android:layout_marginHorizontal="30dp"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="263dp"
+            android:layout_height="136dp"
+            android:layout_marginTop="52dp"
+            android:src="@drawable/farmacia_logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
