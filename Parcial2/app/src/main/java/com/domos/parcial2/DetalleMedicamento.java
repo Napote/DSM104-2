@@ -7,14 +7,18 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.domos.parcial2.datos.Item;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 public class DetalleMedicamento extends AppCompatActivity {
@@ -23,8 +27,12 @@ public class DetalleMedicamento extends AppCompatActivity {
     ImageView imgMedicamento;
     String id, nombre, precio, descripCorta, descripLarga;
     Button btnAgregarAlCarrito;
-    ImageButton ibtnCarrito;
+    ImageButton ibtnCarrito, ibtnMenu;
     int foto;
+
+
+    private FirebaseAuth mAuth;
+
 
     Item enviarCarrito;
 
@@ -33,10 +41,14 @@ public class DetalleMedicamento extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_medicamento);
 
+        mAuth = FirebaseAuth.getInstance();
+
         cargarDatos();
 
         btnAgregarAlCarrito = findViewById(R.id.btnAgregarCarrito);
+
         ibtnCarrito = (ImageButton) findViewById(R.id.ibtnCarrito);
+        ibtnMenu = (ImageButton) findViewById(R.id.ibtnMenu_detalleMedicamento);
 
         ibtnCarrito.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -45,6 +57,14 @@ public class DetalleMedicamento extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ibtnMenu.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                showPopup(v);
+            }
+        });
+
 
         btnAgregarAlCarrito.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -140,4 +160,38 @@ public class DetalleMedicamento extends AppCompatActivity {
         Intent intent = new Intent(DetalleMedicamento.this, MainActivity.class);
         startActivity(intent);
     }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent;
+                switch (item.getItemId()) {
+                    //El primero lleva a mis ordenes
+                    case R.id.menuitem1:
+                        intent = new Intent(DetalleMedicamento.this, Pedidos.class);
+                        startActivity(intent);
+                        return true;
+
+                    //el segundo cierra sesion
+                    case R.id.menuitem2:
+
+                        FirebaseAuth.getInstance().signOut();
+                        intent = new Intent(DetalleMedicamento.this, InicioSesion.class);
+                        startActivity(intent);
+
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+        });
+
+        inflater.inflate(R.menu.menu_principal, popup.getMenu());
+        popup.show();
+    }
+
 }

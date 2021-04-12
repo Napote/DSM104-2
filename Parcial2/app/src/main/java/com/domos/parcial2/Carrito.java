@@ -12,11 +12,14 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -38,7 +41,7 @@ public class Carrito extends AppCompatActivity {
 
     public static Orden estaOrden;
 
-    ImageButton btnRegresarPantallaPrincipal;
+    ImageButton btnMenu;
     Button btnHacerPedido;
     ListView itemsEnCarrito;
     TextView tvNumeroArticulos, tvSubtotal;
@@ -56,13 +59,6 @@ public class Carrito extends AppCompatActivity {
         inicializarControles();
         calcularTotalItems();
 
-        btnRegresarPantallaPrincipal.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Carrito.this,MainActivity.class);
-                startActivity(intent);
-            }
-        });
 
 
         //Hacer un pedido
@@ -94,6 +90,14 @@ public class Carrito extends AppCompatActivity {
 
 
         }});
+
+        btnMenu.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                showPopup(v);
+            }});
+
+
 
         adapter = new AdaptadorCarrito(Carrito.this, MainActivity.listaItemsCarrito);
         itemsEnCarrito.setAdapter(adapter);
@@ -169,7 +173,7 @@ public class Carrito extends AppCompatActivity {
 
     public void inicializarControles(){
         itemsEnCarrito = findViewById(R.id.listaItemsCarrito);
-        btnRegresarPantallaPrincipal = findViewById(R.id.ibtnFlechaRegreso);
+        btnMenu = findViewById(R.id.ibtnMenu_carrito);
         btnHacerPedido = findViewById(R.id.btnHacerPedidoCarrito);
 
         tvNumeroArticulos=findViewById(R.id.tvwNumeroArticulos);
@@ -185,8 +189,39 @@ public class Carrito extends AppCompatActivity {
             btnHacerPedido.setEnabled(true);
         }
     }
+    
 
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent;
+                switch (item.getItemId()) {
+                    //El primero lleva a mis ordenes
+                    case R.id.menuitem1:
+                        intent = new Intent(Carrito.this, Pedidos.class);
+                        startActivity(intent);
+                        return true;
 
+                    //el segundo cierra sesion
+                    case R.id.menuitem2:
+
+                        FirebaseAuth.getInstance().signOut();
+                        intent = new Intent(Carrito.this, InicioSesion.class);
+                        startActivity(intent);
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+        });
+
+        inflater.inflate(R.menu.menu_principal, popup.getMenu());
+        popup.show();
+    }
 
 
 
