@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Parcial2</string>
+    <string name="app_name">Farmacias YXA</string>
 
     <!-- Detalle de medicamento -->
     <string name="titulo_detalle">Detalles</string>
