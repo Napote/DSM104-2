@@ -40,7 +40,7 @@ public class Carrito extends AppCompatActivity {
     ListView itemsEnCarrito;
     TextView tvNumeroArticulos, tvSubtotal;
 
-    static AdaptadorCarrito adapter;
+    public static AdaptadorCarrito adapter;
     private FirebaseAuth mAuth;
 
 
