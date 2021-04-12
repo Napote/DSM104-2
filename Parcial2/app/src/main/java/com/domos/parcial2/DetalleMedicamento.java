@@ -3,24 +3,133 @@ package com.domos.parcial2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.domos.parcial2.datos.Item;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 
 public class DetalleMedicamento extends AppCompatActivity {
 
     TextView txtNombre, txtDescripCorta, txtDescripLarga, txtPrecio;
     ImageView imgMedicamento;
     String id, nombre, precio, descripCorta, descripLarga;
+    Button btnAgregarAlCarrito;
+    ImageButton ibtnCarrito, ibtnMenu;
     int foto;
+
+
+    private FirebaseAuth mAuth;
+
+
+    Item enviarCarrito;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_medicamento);
 
+        mAuth = FirebaseAuth.getInstance();
+
         cargarDatos();
+
+        btnAgregarAlCarrito = findViewById(R.id.btnAgregarCarrito);
+
+        ibtnCarrito = (ImageButton) findViewById(R.id.ibtnCarrito);
+        ibtnMenu = (ImageButton) findViewById(R.id.ibtnMenu_detalleMedicamento);
+
+        ibtnCarrito.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetalleMedicamento.this, Carrito.class);
+                startActivity(intent);
+            }
+        });
+
+        ibtnMenu.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                showPopup(v);
+            }
+        });
+
+
+        btnAgregarAlCarrito.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                //Creando objeto
+                enviarCarrito=new Item(id,nombre,Double.parseDouble(precio),Double.parseDouble(precio),1,foto);
+
+                //antes de agregar el medicamento a la lista de elementos, tengo que verificar si ya existe ese medicamento
+
+                Boolean existe = false;
+                for(Item item : MainActivity.listaItemsCarrito){
+                    if(item.ID.equals(enviarCarrito.ID)){
+                        existe = true;
+                        int unidades = item.getUnidades() + 1;
+                        if(unidades <= 5){
+                            item.setUnidades(unidades);
+                            double costoUnidades = unidades * item.getCosto();
+                            item.setCosto((float)costoUnidades);
+                            Log.i("SE INCREMENTA ELEMENTO", "SE INCREMENTÓ");
+                            Toast.makeText(DetalleMedicamento.this, "Se ha agregado el item al carrito.", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(DetalleMedicamento.this,"Solo puede llevar 5 unidades de este producto.", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }
+
+                if(existe == false){
+                    Log.i("SE CREA ELEMENTO","SE CREÓ");
+                    MainActivity.listaItemsCarrito.add(enviarCarrito);
+                    Toast.makeText(DetalleMedicamento.this, "Se ha agregado el item al carrito.", Toast.LENGTH_SHORT).show();
+                }
+
+
+                // method for saving the data in array list.
+                // creating a variable for storing data in
+                // shared preferences.
+                SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+
+                // creating a variable for editor to
+                // store data in shared preferences.
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                // creating a new variable for gson.
+                Gson gson = new Gson();
+
+                // getting data from gson and storing it in a string.
+                String json = gson.toJson(MainActivity.listaItemsCarrito);
+
+                // below line is to save data in shared
+                // prefs in the form of string.
+                editor.putString("carrito", json);
+
+                // below line is to apply changes
+                // and save data in shared prefs.
+                editor.apply();
+
+
+            }
+        });
+
+
+
+
     }
 
     public void cargarDatos(){
@@ -43,10 +152,46 @@ public class DetalleMedicamento extends AppCompatActivity {
         txtPrecio.setText(precio);
         txtDescripLarga.setText(descripLarga);
         imgMedicamento.setImageResource(foto);
+
+        txtDescripLarga.setMovementMethod(new ScrollingMovementMethod());
     }
 
-    public void regresarPaginaPrincipal(View view){
+    public void regresarDetallePrincipal(View view){
         Intent intent = new Intent(DetalleMedicamento.this, MainActivity.class);
         startActivity(intent);
     }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent;
+                switch (item.getItemId()) {
+                    //El primero lleva a mis ordenes
+                    case R.id.menuitem1:
+                        intent = new Intent(DetalleMedicamento.this, Pedidos.class);
+                        startActivity(intent);
+                        return true;
+
+                    //el segundo cierra sesion
+                    case R.id.menuitem2:
+
+                        FirebaseAuth.getInstance().signOut();
+                        intent = new Intent(DetalleMedicamento.this, InicioSesion.class);
+                        startActivity(intent);
+
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+        });
+
+        inflater.inflate(R.menu.menu_principal, popup.getMenu());
+        popup.show();
+    }
+
 }

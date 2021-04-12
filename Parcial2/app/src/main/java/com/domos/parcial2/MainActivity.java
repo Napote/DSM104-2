@@ -5,14 +5,34 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.domos.parcial2.datos.Item;
+import com.domos.parcial2.datos.Orden;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,15 +42,125 @@ public class MainActivity extends AppCompatActivity {
 
     List<Medicamento> medicamentos;
     ListView listaMedicamentos;
+    private FirebaseAuth mAuth;
+
+
+    //Declarando lista de items para carrito ( global )
+    public static List<Item> listaItemsCarrito;
+
+    ImageButton btnIrCarrito, btnMenu;
+
+    public static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    public static DatabaseReference refClientes = database.getReference("clientes");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        recuperarCarritoPreferencias();
+
         cargarMedicamentos();
         cargarListviewMedicamentos();
+
+        Carrito.estaOrden = new Orden(0,0);
+
+        btnIrCarrito = findViewById(R.id.ibtnCarrito);
+        btnMenu = findViewById(R.id.ibtnMenu);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        btnIrCarrito.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Carrito.class);
+                startActivity(intent);
+            }
+        });
+
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopup(v);
+            }
+        });
+
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser == null){
+            Intent intent = new Intent(MainActivity.this, InicioSesion.class);
+            startActivity(intent);
+        }
+
+    }
+
+    public void showPopup(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Intent intent;
+                switch (item.getItemId()) {
+                    //El primero lleva a mis ordenes
+                    case R.id.menuitem1:
+                        intent = new Intent(MainActivity.this, Pedidos.class);
+                        startActivity(intent);
+                        return true;
+
+                    //el segundo cierra sesion
+                    case R.id.menuitem2:
+
+                        FirebaseAuth.getInstance().signOut();
+                        intent = new Intent(MainActivity.this, InicioSesion.class);
+                        startActivity(intent);
+
+                        return true;
+                    default:
+                        return false;
+                }
+
+            }
+        });
+
+        inflater.inflate(R.menu.menu_principal, popup.getMenu());
+        popup.show();
+    }
+
+
+
+
+    private void recuperarCarritoPreferencias(){
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        // creating a variable for gson.
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("carrito", null);
+
+        //mapeando string
+        Type type = new TypeToken<ArrayList<Item>>() {}.getType();
+
+        listaItemsCarrito = gson.fromJson(json, type);
+
+        //Si shared preferences esta vacio crear la lista
+
+        if (listaItemsCarrito == null) {
+            listaItemsCarrito = new ArrayList<Item>();
+        }
+    }
+
 
     private void cargarMedicamentos(){
 
@@ -65,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarListviewMedicamentos() {
+
         listaMedicamentos = findViewById(R.id.listaMedicamentos);
 
 
@@ -73,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getBaseContext(), DetalleMedicamento.class);
-
                 //Esta linea me puede servir para la key del medicamento en firebase
                 //intent.putExtra("key", personas.get(i).getKey());
 
@@ -88,68 +218,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        // Cuando el usuario hace un LongClic (clic sin soltar elemento por mas de 2 segundos)
-        // Es por que el usuario quiere eliminar el registro
-        listaPersonas.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int position, long l) {
-
-                // Preparando cuadro de dialogo para preguntar al usuario
-                // Si esta seguro de eliminar o no el registro
-                AlertDialog.Builder ad = new AlertDialog.Builder(PersonasActivity.this);
-                ad.setMessage("Está seguro de eliminar registro?")
-                        .setTitle("Confirmación");
-
-                ad.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        PersonasActivity.refPersonas
-                                .child(personas.get(position).getKey()).removeValue();
-
-                        Toast.makeText(PersonasActivity.this,
-                                "Registro borrado!",Toast.LENGTH_SHORT).show();
-                    }
-                });
-                ad.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(PersonasActivity.this,
-                                "Operación de borrado cancelada!",Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                ad.show();
-                return true;
-            }
-        });
-        */
-
         AdaptadorMedicamento adapter = new AdaptadorMedicamento(MainActivity.this, medicamentos);
         listaMedicamentos.setAdapter(adapter);
 
-        //Esto lo arreglo ya cuando tenga el firebase
-        /*
-        // Cambiarlo refProductos a consultaOrdenada para ordenar lista
-        consultaOrdenada.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Procedimiento que se ejecuta cuando hubo algun cambio
-                // en la base de datos
-                // Se actualiza la coleccion de personas
-                personas.removeAll(personas);
-                for (DataSnapshot dato : dataSnapshot.getChildren()) {
-                    Persona persona = dato.getValue(Persona.class);
-                    persona.setKey(dato.getKey());
-                    personas.add(persona);
-                }
-
-                AdaptadorPersona adapter = new AdaptadorPersona(PersonasActivity.this,
-                        personas );
-                listaPersonas.setAdapter(adapter);
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });*/
     }
 }

@@ -1,7 +1,25 @@
 <resources>
-    <string name="app_name">Parcial2</string>
+    <string name="app_name">Farmacias YXA</string>
 
     <!-- Detalle de medicamento -->
     <string name="titulo_detalle">Detalles</string>
     <string name="agregar_carrito">Agregar al carrito</string>
+
+
+    <!-- Carrito -->
+    <string name="titulo_pantalla_carrito">CARRITO</string>
+    <string name="text_btn_hacer_pedido">HACER PEDIDO</string>
+    <string name="text_lblSubtotal">Subtotal - </string>
+
+    <!-- Inicio de sesión -->
+    <string name="text_lblSinCuenta">¿No tienes una cuenta?</string>
+    <string name="btn_iniciarSesion">Iniciar Sesion</string>
+    <string name="btn_registrarse">Registrate</string>
+    <string name="hint_correo">Correo</string>
+    <string name="hint_contraseña">Contraseña</string>
+
+    <!-- Registrar usuario -->
+    <string name="btn_registrar_cuenta">Registrar cuenta</string>
+    <string name="titulo_registrar">Registrar nueva cuenta de usuario</string>
+    <string name="lbl_regresar_inicio_sesion">Regresar al inicio de sesion</string>
 </resources>

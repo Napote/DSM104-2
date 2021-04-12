@@ -11,4 +11,5 @@
     <color name="fondoPrincipal">#EFECE9</color>
     <color name="fondoToolbar">#DB9961</color>
     <color name="fondoBoton">#63A787</color>
+    <color name="fondoInicioSesion">#F6F6F6</color>
 </resources>
