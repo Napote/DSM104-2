@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.domos.parcial2.datos.Item;
+import com.domos.parcial2.datos.Orden;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.google.firebase.database.DatabaseReference;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         cargarMedicamentos();
         cargarListviewMedicamentos();
 
-        Bundle bund = getIntent().getExtras();
+        Carrito.estaOrden = new Orden(0,0);
 
         btnIrCarrito = findViewById(R.id.ibtnCarrito);
         btnMenu = findViewById(R.id.ibtnMenu);
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         //Si shared preferences esta vacio crear la lista
 
         if (listaItemsCarrito == null) {
-            listaItemsCarrito = new ArrayList<>();
+            listaItemsCarrito = new ArrayList<Item>();
         }
     }
 

@@ -41,11 +41,7 @@ public class Carrito extends AppCompatActivity {
     TextView tvNumeroArticulos, tvSubtotal;
 
     static AdaptadorCarrito adapter;
-
-
     private FirebaseAuth mAuth;
-
-
 
 
     @Override
@@ -53,9 +49,7 @@ public class Carrito extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carrito);
 
-
         mAuth = FirebaseAuth.getInstance();
-
         inicializarControles();
         calcularTotalItems();
 
@@ -67,12 +61,13 @@ public class Carrito extends AppCompatActivity {
             }
         });
 
+
+        //Hacer un pedido
         btnHacerPedido.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
 
-                if(MainActivity.listaItemsCarrito == null){
-
+                if(estaOrden.getTotalItems()==0){
                     Toast.makeText(Carrito.this,"El carrito esta vacio.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -80,18 +75,21 @@ public class Carrito extends AppCompatActivity {
                 String usuarioActivo = mAuth.getUid();
                 MainActivity.refClientes.child(usuarioActivo).child("ordenes").push().setValue(estaOrden);
 
+                //Vaciar carrito
+                MainActivity.listaItemsCarrito.clear();
+                estaOrden = new Orden(0,0);
+                calcularTotalItems();
+
+                btnHacerPedido.setEnabled(false);
+                Toast.makeText(Carrito.this,"Pedido en marcha :)", Toast.LENGTH_SHORT).show();
+                adapter.notifyDataSetChanged();
+
+
         }});
 
-
-
-
-
         adapter = new AdaptadorCarrito(Carrito.this, MainActivity.listaItemsCarrito);
-
         itemsEnCarrito.setAdapter(adapter);
-        if (MainActivity.listaItemsCarrito == null) {
-            btnHacerPedido.setEnabled(false);
-        }
+
 
         LocalBroadcastManager.getInstance(this).registerReceiver(actualizarCarrito, new IntentFilter("actualizarCarrito"));
 
@@ -101,12 +99,6 @@ public class Carrito extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        if (MainActivity.listaItemsCarrito == null) {
-            btnHacerPedido.setEnabled(false);
-        }else{
-            btnHacerPedido.setEnabled(true);
-        }
     }
 
 
@@ -126,6 +118,11 @@ public class Carrito extends AppCompatActivity {
 
     public void calcularTotalItems(){
 
+        if(MainActivity.listaItemsCarrito.isEmpty()){
+            tvNumeroArticulos.setText("0 articulos");
+            tvSubtotal.setText("$ 0.00");
+            return;
+        }
         int numeroArticulos = 0;
         double sumaCostoArticulos = 0;
 
@@ -170,6 +167,15 @@ public class Carrito extends AppCompatActivity {
         tvNumeroArticulos=findViewById(R.id.tvwNumeroArticulos);
         tvSubtotal=findViewById(R.id.tvwSubtotalDolares);
 
+    }
+
+    public void carritoEstaVacio(){
+
+        if (estaOrden.getTotalItems()==0) {
+           btnHacerPedido.setEnabled(false);
+        }else{
+            btnHacerPedido.setEnabled(true);
+        }
     }
 
 
