@@ -41,7 +41,7 @@ public class Carrito extends AppCompatActivity {
 
     public static Orden estaOrden;
 
-    ImageButton btnMenu;
+    ImageButton btnMenu, btnRegresar;
     Button btnHacerPedido;
     ListView itemsEnCarrito;
     TextView tvNumeroArticulos, tvSubtotal;
@@ -96,6 +96,14 @@ public class Carrito extends AppCompatActivity {
             public void onClick(View v) {
                 showPopup(v);
             }});
+
+        btnRegresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Carrito.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
 
@@ -175,6 +183,7 @@ public class Carrito extends AppCompatActivity {
         itemsEnCarrito = findViewById(R.id.listaItemsCarrito);
         btnMenu = findViewById(R.id.ibtnMenu_carrito);
         btnHacerPedido = findViewById(R.id.btnHacerPedidoCarrito);
+        btnRegresar = findViewById(R.id.ibtnFlechaRegreso);
 
         tvNumeroArticulos=findViewById(R.id.tvwNumeroArticulos);
         tvSubtotal=findViewById(R.id.tvwSubtotalDolares);

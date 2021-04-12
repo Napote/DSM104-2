@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         Carrito.estaOrden = new Orden(0,0);
 
         btnIrCarrito = findViewById(R.id.ibtnCarrito);
-        btnMenu = findViewById(R.id.ibtnMenu2);
+        btnMenu = findViewById(R.id.ibtnMenu);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Pedidos.class);
-                startActivity(intent);
                 showPopup(v);
             }
         });
