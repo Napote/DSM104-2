@@ -9,8 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import com.domos.parcial2.datos.Medicamento;
-import com.domos.parcial2.datos.Orden;
+
 import com.domos.parcial2.datos.Pedido;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -63,6 +62,8 @@ public class Pedidos extends AppCompatActivity {
                     pedido.setID(dato.getKey());
                     pedidos.add(pedido);
                 }
+
+
 
                 AdaptadorPedido adapter = new AdaptadorPedido(Pedidos.this, pedidos);
                 listaOrdenes.setAdapter(adapter);

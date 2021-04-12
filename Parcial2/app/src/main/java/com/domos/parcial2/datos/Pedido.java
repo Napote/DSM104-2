@@ -7,15 +7,17 @@ public class Pedido {
     private String ID;
     private double costo;
     private Long totalItems;
+    private String fechaOrden;
 
     public Pedido(){
 
     }
 
-    public Pedido(String ID, double costo, Long totalItems){
+    public Pedido(String ID, double costo, Long totalItems, String fechaOrden){
         this.ID = ID;
         this.costo = costo;
         this.totalItems = totalItems;
+        this.fechaOrden = fechaOrden;
     }
 
     public void setCosto(double costo) {
@@ -40,5 +42,13 @@ public class Pedido {
 
     public Long getTotalItems() {
         return totalItems;
+    }
+
+    public void setFechaOrden(String fechaOrden) {
+        this.fechaOrden = fechaOrden;
+    }
+
+    public String getFechaOrden() {
+        return fechaOrden;
     }
 }

@@ -27,7 +27,10 @@ import com.domos.parcial2.datos.Orden;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -71,6 +74,11 @@ public class Carrito extends AppCompatActivity {
                     Toast.makeText(Carrito.this,"El carrito esta vacio.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy 'a las' HH:mm:ss z");
+                String currentDateandTime = sdf.format(new Date());
+
+                estaOrden.setFechaOrden(currentDateandTime);
 
                 String usuarioActivo = mAuth.getUid();
                 MainActivity.refClientes.child(usuarioActivo).child("ordenes").push().setValue(estaOrden);

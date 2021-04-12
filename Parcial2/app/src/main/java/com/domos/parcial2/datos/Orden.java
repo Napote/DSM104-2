@@ -29,4 +29,11 @@ public class Orden {
         return totalItems;
     }
 
+    public void setFechaOrden(String fechaOrden) {
+        this.fechaOrden = fechaOrden;
+    }
+
+    public String getFechaOrden() {
+        return fechaOrden;
+    }
 }

@@ -21,6 +21,15 @@
             android:layout_marginHorizontal="10dp">
 
             <TextView
+                android:id="@+id/txtFechaOrden"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginVertical="5dp"
+                android:gravity="right"
+                />
+
+            <TextView
                 android:id="@+id/txtIdOrden"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

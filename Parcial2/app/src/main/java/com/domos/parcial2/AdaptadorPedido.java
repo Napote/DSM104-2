@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.domos.parcial2.datos.Medicamento;
 import com.domos.parcial2.datos.Pedido;
 
 import java.util.List;
@@ -38,11 +37,13 @@ public class AdaptadorPedido extends ArrayAdapter<Pedido> {
             rowview = layoutInflater.inflate(R.layout.pedido,null);
         else rowview = view;
 
+        TextView txtFechaOrden = rowview.findViewById(R.id.txtFechaOrden);
         TextView txtIdOrden = rowview.findViewById(R.id.txtIdOrden);
         TextView txtCantidadOrden = rowview.findViewById(R.id.txtCantidadOrden);
         TextView txtCostoOrden = rowview.findViewById(R.id.txtCostoOrden);
 
-        txtIdOrden.setText("ID: "+pedidos.get(position).getID());
+        txtFechaOrden.setText(pedidos.get(position).getFechaOrden());
+        txtIdOrden.setText("Orden N-"+position+1);
         txtCantidadOrden.setText("Cantidad de medicamentos: "+pedidos.get(position).getTotalItems());
         txtCostoOrden.setText("Costo total: $"+String.format("%.2f",pedidos.get(position).getCosto()));
 
